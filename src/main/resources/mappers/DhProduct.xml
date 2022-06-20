@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.oracle.oBootS20220603.ProductMapper">
+	
+	<select id="dhProdTotal" resultType="int">
+		select count(*) from product
+	</select>
+
+	<select id="dhCateTotal" parameterType="int" resultType="int">
+		select count(*) from product where category=#{cgnum}
+	</select>
+	
+	<select id="dhProdSelect" resultType="Product">
+		select *
+		from (select rownum rn, a.*
+      		  from (select p.*, e.dc_rate, (p.prod_price * ((100-NVL(e.dc_rate, 0))/100)) sale_price
+              		from product p, evt_product ep, event e
+            		where p.prodno = ep.prodno(+) and ep.evt_no = e.evt_no(+)
+            		order by p.prodno desc) a)
+	</select>
+	
+	<select id="dhCateProdSelect" parameterType="int" resultType="Product">
+		select *
+		from (select rownum rn, a.*
+      		  from (select p.*, e.dc_rate, (p.prod_price * ((100-NVL(e.dc_rate, 0))/100)) sale_price
+              		from product p, evt_product ep, event e
+            		where p.prodno = ep.prodno(+) and ep.evt_no = e.evt_no(+)
+            		order by p.prodno desc) a)
+              where category = #{cgnum}
+	</select>
+	
+	<!-- ================================================================================  -->
+	<!-- 상품 상세페이지  -->
+	<select id="dhProdno" parameterType="Product" resultType="Product">
+		<!-- select * from product where prodno=#{prodno} -->
+		select *
+		from (select rownum rn, a.*
+      		  from (select p.*, e.dc_rate, (p.prod_price * ((100-NVL(e.dc_rate, 0))/100)) sale_price
+              		from product p, evt_product ep, event e
+            		where p.prodno = ep.prodno(+) and ep.evt_no = e.evt_no(+)
+            		order by p.prodno desc) a)
+              where prodno = #{prodno}
+	</select>
+	
+	  <!-- 장바구니 담기 -->	
+<!-- 	 <insert id="insertBasket" parameterType="Basket" > 
+		insert into Basket values(#{prodno},#{id},#{bas_qty})
+	</insert>  -->
+	
+	 <update id="dhinsertBasket" parameterType="Basket" >
+		merge
+		into basket b
+		using dual
+		on (b.prodno=#{prodno} and b.id=#{id})
+		when matched then
+		    update 
+		    set b.bas_qty= b.bas_qty + #{bas_qty}
+		when not matched then 
+		    insert (b.prodno, b.id, b.bas_qty)
+		    values (#{prodno},#{id},#{bas_qty})
+	</update> 
+	 
+	 
+	<!-- 장바구니  리스트-->
+	<select id="dhshCartList" parameterType="Product" resultType="product">
+	 	select *
+		from (select rownum rn, a.*
+     		  from  (SELECT p.prodno,  p.th_img, p.brand_name, p.prod_name, b.bas_qty, b.id, (b.bas_qty * p.prod_price) sale_price 
+                     FROM product p, basket b
+                     WHERE p.prodno=b.prodno)a)
+        where id=#{id}             
+	</select>
+	
+	<!-- 장바구니 삭제버튼  -->
+	<delete id="dhcartDel" parameterType="Product">
+		delete from Basket where prodno =#{prodno}
+	</delete>
+	
+	
+	<!-- 상세페이지->회원존재확인 -->
+ 	<select id="dhshLMember" parameterType="Product" resultType="int">
+		select count(*)
+		from basket
+		where id=#{id}
+	</select> 
+	
+	<!-- ================================================================================  -->
+	<!-- 위시리스트 시작 -->
+	<!-- id prodno 모두가 같은 품목이 있는지 -->
+	<select id="findProdViewHeart" resultType="int" parameterType="Wishlist">
+		SELECT count(*)
+		FROM wishlist
+		WHERE id=#{id} AND prodno=#{prodno} 
+	</select>
+	
+	<!-- 위시리스트 하트(빈->채) 바뀜 -->
+	<select id="WishchgEmpToFill" resultType="int" parameterType="Wishlist">
+		INSERT INTO wishlist(prodno, id)
+		VALUES (#{prodno}, #{id}) 
+	</select>
+	
+	<!-- 위시리스트 하트(채->빈) 바뀜 -->
+	<select id="WishchgFillToEmpty" resultType="int" parameterType="Wishlist">
+		DELETE 
+		FROM wishlist
+		WHERE id=#{id} AND prodno=#{prodno} 
+	</select>
+	
+	<!-- 위시리스트 뷰단 -->
+	<select id="idWishListAll" resultType="Product" parameterType="java.lang.String">
+		SELECT p.*, e.dc_rate, (p.prod_price * ((100-NVL(e.dc_rate, 0))/100)) sale_price 
+		FROM wishlist w, product p, evt_product ep, event e
+		WHERE p.prodno = ep.prodno(+) AND ep.evt_no = e.evt_no(+) AND w.id=#{id} AND p.prodno=w.prodno 
+	</select>
+	<!-- 위시리스트 끝 -->
+	
+</mapper>
