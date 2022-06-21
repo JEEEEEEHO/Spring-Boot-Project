@@ -121,23 +121,39 @@
 	</delete>
 
 
-	<!-- 어드민 상품 수정 -->
-<!-- 	<update id="dhprodUpdate" parameterType="Product" >
-		update product set 
-						   prod_poststs=#{prod_poststs},
-						   prod_salests=#{prod_salests},
-						   category=#{category},
-						   brand_name=#{brand_name},
-						   prod_name=#{prod_name},
-						   prod_price=#{sale_price},
-						   stock =#{stock},
-						   th_img=#{},
-						   main_img1=#{main_img1},
-						   main_img2=#{main_img2},
-						   prod_info=#{prod_info},
-						   prod_reg=#{prod_reg},
-						   prod_qty=#{prod_qty}	 
-	    where prodno=#{prodno} 
-	</update> -->
-
+	<!-- 어드민 상품 등록 insert -->
+	<insert id="dhProdInsert" parameterType="Product">
+		insert into product 
+		values (
+					  prodno_seq.nextval
+					, #{category}
+					, #{brand_name}
+					, #{prod_name}
+					, #{prod_price}
+					, #{stock}
+					, #{sale_qty}
+					, sysdate
+					, #{prod_poststs}
+					, #{prod_salests}
+					, #{th_img}
+					, #{main_img1}
+					, #{main_img2}
+					, #{prod_info}
+				)
+	</insert>
+	<!-- ///////////////////////게시 비게시//////////////////////////////// -->
+	<!-- 게시에서 비게시 아작스  -->
+	<select id="dhChgstsyn" parameterType="int">
+		UPDATE product
+		SET prod_poststs=0, prod_salests=0
+		WHERE prodno=#{prodno}
+	</select>
+	
+		<!-- 비게시에서 게시 아작스  -->
+	<select id="dhChgstsny" parameterType="int">
+		UPDATE product
+		SET prod_poststs=1, prod_salests=1
+		WHERE prodno=#{prodno}
+	</select>
+	<!-- ///////////////////////게시 비게시//////////////////////////////// -->
 </mapper>

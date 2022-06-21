@@ -24,7 +24,8 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
 
-	
+
+<!-- 게시 비게시 ------------------------------------------------------------------------------- -->
 <script type="text/javascript">
 	 function deleteBtn() {
 		var confirm_val=confirm('정말로 삭제하시겠습니까?');
@@ -42,7 +43,6 @@
 						url: "<%=context%>/adminProdDelAJAX",
 						type: "post",
 						data : {chbox: checkArr},
-////////////////////////////////////////////////////////////////////////////////////////////////////////////						
 						dataType: "text",
 						success : function(result){
 							if(result ==1){
@@ -56,7 +56,84 @@
 				)
 			}
 		};
+		
+		// 비게시에서 게시로 아작스
+		function chgstsny(prodno) {
+			var prodno=prodno;
+			alert('prodno->'+prodno);
+			var data1='게시';
+			alert('data1->'+data1);
+			var data2='비게시';
+			alert('data2->'+data2);	
+			var data3='판매중'
+			alert('data3->'+data3);
+			
+			$.ajax(
+				{
+					url: "<%=context%>/chgstsnyajax",
+					data: {prodno:prodno},
+					////////////////////////////
+					dataType: "text",
+					success : function(result1){
+						if(result1 ==1){
+							alert('게시로 상태 변경 완료')
+							$('#nshowy'+prodno).html(data1);
+							$('#nshowyT'+prodno).html(data2);
+							$('#stopT'+prodno).html(data3);
+							/* var yshown=$('btn btn-sm btn-outline-secondary').attr('class');
+							$('.btn btn-sm btn-primary').text(yshown); */
+							$('#nshowyB'+prodno).attr('class','btn btn-sm btn-outline-secondary');
+							$('#stop'+prodno).attr('class','badge bg-label-primary me-1');
+							history.go(0);
+						}else{
+							alert("상태변경 실패");
+						}		
+					}
+					
+				}		
+			)
+		};
+		
+		// 게시에서 비게시 아작스
+		function chgstsyn(prodno) {
+			var prodno=prodno;
+			alert('prodno->'+prodno);
+			var data1='비게시';
+			alert('data1->'+data1);
+			var data2='게시';
+			alert('data2->'+data2);
+			var data3='판매중지'
+			alert('data3->'+data3);
+			
+			
+			$.ajax(
+				{
+					url: "<%=context%>/chgstsynajax",
+					data: {prodno:prodno},
+					////////////////////////////
+					dataType: "text",
+					success : function(result1){
+						if(result1 ==1){
+							alert('비게시로 상태 변경 완료')
+							$('#yshown'+prodno).html(data1);
+							$('#yshownT'+prodno).html(data2);
+							$('#ingT'+prodno).html(data3);
+							/* var nshown=$('btn btn-sm btn-primary').attr('class');
+							$('.btn btn-sm btn-outline-secondary').text(nshown); */
+							$('#yshownB'+prodno).attr('class','btn btn-sm btn-primary');
+							$('#ing'+prodno).attr('class','badge bg-label-danger me-1');
+							history.go(0);
+						}else{
+							alert("상태변경 실패");
+						}		
+					}
+					
+				}		
+			)
+		};
+		
 </script>	
+<!-- 게시 비게시 ------------------------------------------------------------------------------- -->
 	
 </head>
 <body>
@@ -202,25 +279,28 @@
 					                        </td>
 	                                        <td>${product.prod_reg}</td>
 					                        <td>
+<!-- -----------------------------------------------------------------------------------------------------------------게시 비게시 ------------------------------------------------------------------------------- -->
 					                        	<c:if test="${product.prod_salests == 0}">
-							                        <span class="badge bg-label-danger me-1">판매 중지 / ${product.sale_qty} 건</span>
+							                        <span id="stop${product.prodno}" class="badge bg-label-danger me-1"><span id="stopT${product.prodno}">판매 중지</span> / ${product.sale_qty} 건</span>
 					                        	</c:if>
 					                        	<c:if test="${product.prod_salests == 1}">
-					                        		<span class="badge bg-label-primary me-1">판매 중 / ${product.sale_qty} 건</span>
+					                        		<span id="ing${product.prodno}" class="badge bg-label-primary me-1"><span id="ingT${product.prodno}">판매 중</span> / ${product.sale_qty} 건</span>
 					                        	</c:if>
 					                        	<c:if test="${product.prod_salests == 2}">
-							                        <span class="badge bg-label-secondary me-1">품절 / ${product.sale_qty} 건</span>
+							                        <span id="soldout${product.prodno}" class="badge bg-label-secondary me-1"><span id="soldoutT${product.prodno}">품절</span> / ${product.sale_qty} 건</span>
 					                        	</c:if>
 					                        </td>
 					                        <td>
 					                        	<c:if test="${product.prod_poststs == 0}">
-													비게시 &nbsp;
-		                                            <button type="button" class="btn btn-sm btn-primary">게시</button>
+													<span id="nshowy${product.prodno}">비게시</span> &nbsp;
+		                                        	<button type="button" id="nshowyB${product.prodno}" class="btn btn-sm btn-primary" onclick="chgstsny(${product.prodno})"><span id="nshowyT${product.prodno}">게시</span></button>
 	                                            </c:if>
 					                        	<c:if test="${product.prod_poststs == 1}">
-													게시 &nbsp;
-		                                            <button type="button" class="btn btn-sm btn-outline-secondary">비게시</button>
+													<span id="yshown${product.prodno}">게시</span> &nbsp;
+		                                            <button type="button" id="yshownB${product.prodno}" class="btn btn-sm btn-outline-secondary" onclick="chgstsyn(${product.prodno})"><span id="yshownT${product.prodno}" >비게시</span></button>
 	                                            </c:if>
+<!-- -----------------------------------------------------------------------------------------------------------------게시 비게시 ------------------------------------------------------------------------------- -->
+	                                            
 	                                        </td>
 					                      </tr>
 				                      </c:forEach>

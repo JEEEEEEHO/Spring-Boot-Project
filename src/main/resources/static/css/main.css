@@ -2,10 +2,10 @@
 
 /* 보여줄 구간의 높이와 넓이 설정 */
 #slideShow{
-  width: 1200px;
-  height: 300px;
+  width: 100%;
+  height: 430px;
   position: relative;
-  margin:50px auto;
+  margin:0px auto;
   overflow: hidden;   
   /*리스트 형식으로 이미지를 일렬로 
   정렬할 것이기 때문에, 500px 밖으로 튀어 나간 이미지들은
@@ -13,15 +13,16 @@
 }
 
 #slideShow img {
-	width:1200px;
-	height:300px;
+	width:100%;
+	height:100%;
 }
 
 .slides{
   position: absolute;
   left: 0;
   top: 0;
-  width: 3600px; /* 슬라이드할 사진과 마진 총 넓이 */
+ /*  width: 3600px; 슬라이드할 사진과 마진 총 넓이 */
+  width: 5,760px; /* 슬라이드할 사진과 마진 총 넓이 */
   transition: left 0.5s ease-out; 
   /*ease-out: 처음에는 느렸다가 점점 빨라짐*/
 }
@@ -35,7 +36,7 @@
 /* 슬라이드들 옆으로 정렬 */
 .slides li:not(:last-child){
   float: left;
-  margin-right: 100px;
+  /* margin-right: 100px; */
 }
 
 .slides li{
@@ -76,6 +77,11 @@
 #best {
 	font-size:22px;
 	font-weight:bold;
+	text-align: center;
+	border-bottom: 1px solid #5F8350;
+	color: #5F8350;
+	margin : 70px 0px 30px 0px;
+	padding-bottom: 20px;
 }
 
 #bestItems {
@@ -114,7 +120,7 @@
 
 .marginBtn {
 	width:100%;
-	margin-top:50px;
+	/* margin-top:50px; */
 	text-align:center;
 }
 

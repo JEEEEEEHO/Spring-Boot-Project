@@ -18,5 +18,10 @@ public interface DhProductDaoA {
 	int           delete(int prodno);     // 어드민 상품삭제
 //	int           prodUpdate(Product product); // 어드민 상품수정 
 	int           adminProdDelAJAX(Product product);  // 관리자 상품리스트에서 상품삭제
+	int prodInsert(Product product);
 	
+////////////게시 비게시/////////////////////////
+	int chgstsyn(int prodno);
+	int chgstsny(int prodno);
+////////////게시 비게시/////////////////////////	
 }

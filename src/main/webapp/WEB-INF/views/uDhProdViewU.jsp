@@ -36,6 +36,7 @@
 					if(data==1){
 						$('#imgemph').attr('src','images/icons/fillheart.png');
 						history.go(0);
+						// 현재 채워진 하트에서 바로 누르는 거 허용하기 위해 새로고침 
 					}
 					
 				}

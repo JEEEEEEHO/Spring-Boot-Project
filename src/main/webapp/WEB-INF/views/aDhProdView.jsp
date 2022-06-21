@@ -44,6 +44,42 @@
 	      
 	      //저장버튼 클릭시 form 전송
 	      $("#save").click(function(){
+	    	  if (!frm.brand_name.value) {
+					alert("브랜드명을 입력해주세요.");
+					frm.brand_name.focus();
+					return false;
+	    	  }
+	    	  if (!frm.prod_name.value) {
+					alert("상품명을 입력해주세요.");
+					frm.prod_name.focus();
+					return false;
+	    	  }
+	    	  if (!frm.price.value) {
+					alert("판매가를 입력해주세요.");
+					frm.price.focus();
+					return false;
+	    	  }
+	    	  if (!frm.stock.value) {
+					alert("재고수량을 입력해주세요.");
+					frm.stock.focus();
+					return false;
+	    	  }
+	    	  if (!frm.th_img.value) {
+					alert("배너 이미지를 등록해주세요.");
+					frm.th_img.focus();
+					return false;
+	    	  }
+	    	  if (!frm.main_img1.value) {
+					alert("대표 이미지를 등록해주세요.");
+					frm.main_img1.focus();
+					return false;
+	    	  }
+	    	  if (!frm.main_img2.value) {
+					alert("대표 이미지를 등록해주세요.");
+					frm.main_img2.focus();
+					return false;
+	    	  }
+	    	  
 	          oEditors.getById["editorTxt"].exec("UPDATE_CONTENTS_FIELD", []);
 	          $("#frm").submit();
 	      });    
@@ -89,7 +125,7 @@
 						<h4 class="fw-bold py-3 mb-4">상품 관리</h4>
 						<!-- Account -->
 
-						<form action="frm">
+						<form action="prodUpdate" method="post" name="frm" enctype="multipart/form-data">
 				            <div class="card mb-4">
 				              <div class="table-responsive text-nowrap">
 				                <table class="table table-borderless">
@@ -131,21 +167,21 @@
 				                  </tr>
 				                  <tr>
 				                    <td>브랜드명</td>
-				                    <td colspan="3"><input class="form-control mt-3" type="text" value="${product.brand_name}" required="required"/></td>
+				                    <td colspan="3"><input name="brand_name" class="form-control mt-3" type="text" value="${product.brand_name}" required="required"/></td>
 				                  </tr>
 				                  <tr>
 				                    <td>상품명</td>
-				                    <td colspan="3"><input class="form-control mt-3" type="text" value="${product.prod_name}" required="required"/></td>
+				                    <td colspan="3"><input name="prod_name" class="form-control mt-3" type="text" value="${product.prod_name}" required="required"/></td>
 				                  </tr>
 				                  <tr>
 				                    <td>판매가</td>
-				                    <td><input class="form-control mt-3" type="text" placeholder="원단위 입력" value="${product.prod_price}" required="required"/></td>
+				                    <td><input name="price" class="form-control mt-3" type="text" placeholder="원단위 입력" value="${product.prod_price}" required="required"/></td>
 				                    <td>할인율 : <span>${product.dc_rate}</span>%</td>
 				                    <td>할인가 : <span><fmt:formatNumber value="${product.sale_price}" pattern="###,###,###"/></span>원</td>
 				                  </tr>
 				                  <tr>
 				                    <td>재고수량</td>
-				                    <td><input class="form-control mt-3" type="text" placeholder="개수 입력" value="${product.stock}" required="required"/></td>
+				                    <td><input name="stock" class="form-control mt-3" type="text" placeholder="개수 입력" value="${product.stock}" required="required"/></td>
 				                    <td>총 판매수량 : <span><fmt:formatNumber value="${product.sale_qty}" pattern="###,###,###"/></span>건</td>
 				                    <td>남은 재고 수량 : <span><fmt:formatNumber value="${product.stock - product.sale_qty}" pattern="###,###,###"/></span>건</td>
 				                  </tr>
@@ -153,7 +189,7 @@
 				                    <td>배너 이미지</td>
 				                    <td colspan="3">
 									  <p class="text mt-3">기존 이미지 : ${product.th_img}
-				                      <input class="form-control mt-1" type="file" id="formFile" required="required"/>
+				                      <input name="th_img" class="form-control mt-1" type="file" accept=".gif, .jpg, .png" required="required"/>
 				                    </td>
 				                  </tr>
 				                  <tr>
@@ -161,7 +197,8 @@
 				                    <td colspan="3">
 				                      <span class="mt-3 img_text">* 2장의 이미지를 첨부해주세요</span>
 									  <p class="text mt-1">기존 이미지 : ${product.main_img1}, ${product.main_img2}
-				                      <input class="form-control mt-1" type="file" id="formFileMultiple" multiple required="required"/> <!-- 여러개 파일 첨부 가능 input -->
+				                      <input name="main_img1" class="form-control mt-1" type="file" accept=".gif, .jpg, .png" required="required"/>
+				                      <input name="main_img2" class="form-control mt-1" type="file" accept=".gif, .jpg, .png" required="required"/>
 				                    </td>
 				                  </tr>
 				                  <tr>
@@ -169,7 +206,7 @@
 				                    <td colspan="3">
 				                      <p class="mt-3">
 				                      <textarea 
-				                      		name="editorTxt" id="editorTxt" 
+				                      		name="editorTxt" id="editorTxt" style="width: 100%;" 
 				                      		rows="12" cols="137" required="required"></textarea>
 				                      <p>
 				                    </td>
@@ -180,7 +217,7 @@
 				            <div class="mb-3 btn_wrapper">
 				                <input type="button" value="삭제" class="btn btn-secondary" onclick="location.href='prodDelete?prodno=${product.prodno}'"></button>
 				                <input type="button" value="목록" class="btn btn-outline-secondary" onclick="location.href='prodSelect'"></button>
-				                <input type="button" id="save" value="수정" class="btn btn-primary"  onclick="location.href='prodUpdate?prodno=${product.prodno}'"></button>
+				                <input type="button" id="save" value="수정" class="btn btn-primary"></button>
 				            </div>
 				        </form>
 						<!-- /Account -->

@@ -64,7 +64,7 @@ public class DhProdControllerU {
 		System.out.println("DhProdControllerU product.prodno() back->"+product1);
 		
 		
-		// 위시리스트 시작 ***********************************************************		 
+//////////////////////////////////// 위시리스트 시작 ***********************************************************		 
 		 // 위시리스트 하트 용 추가 시작
 		 System.out.println("DhProdControllerU prodDetail id->"+id);
 		 int result=0;
@@ -149,7 +149,8 @@ public class DhProdControllerU {
 				
 				return "DhWishList";
 			}
-		// 위시리스트 끝***********************************************************	
+////////////////////////////////////위시리스트 끝 ***********************************************************		 
+
 	
 	
 	// 장바구니 insert & update

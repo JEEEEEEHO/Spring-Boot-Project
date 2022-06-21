@@ -43,7 +43,7 @@ public class DhProductServiceImplA implements DhProdServiceA {
 		return result;
 	}
 	
-	// 리스트 페이징 _지아
+	// 상품 리스트
 	@Override
 	public List<Product> listProd(Product product) {
 		List<Product> prodList = null;
@@ -53,7 +53,7 @@ public class DhProductServiceImplA implements DhProdServiceA {
 		return prodList;
 	}
 	
-	// ALL 상품 총 개수(페이징)_지아
+	// ALL 상품 총 개수
 	@Override
 	public int total() {
 		System.out.println("DhProdServiceImplA total Start..");
@@ -89,7 +89,7 @@ public class DhProductServiceImplA implements DhProdServiceA {
 		Product product = dhpd.prodDetail(prodno);
 		return product;
 	}
-		
+	
 	// 어드민 상품 삭제
 	@Override
 	public int delete(int prodno) {
@@ -123,21 +123,34 @@ public class DhProductServiceImplA implements DhProdServiceA {
 //	
 	
 	
+	// 상품 등록 insert
+	@Override
+	public int prodInsert(Product product) {
+		System.out.println("DhProdServiceImplA prodInsert Start..");
+		int result = 0;
+		result = dhpd.prodInsert(product);
+		return result;
+	}
 	
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 게시에서 비게시 아작스 
+	@Override
+	public int chgstsyn(int prodno) {
+		System.out.println("DhProdServiceImplA chgstsyn Starts...");
+		int result=dhpd.chgstsyn(prodno);
+		System.out.println("DhProdServiceImplA chgstsyn result->"+result);
+		return result;
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	// 비게시에서 게시로 아작스 
+	@Override
+	public int chgstsny(int prodno) {
+		System.out.println("DhProdServiceImplA chgstsny Starts...");
+		int result=dhpd.chgstsny(prodno);
+		System.out.println("DhProdServiceImplA chgstsny result->"+result);
+		return result;
+	}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 }

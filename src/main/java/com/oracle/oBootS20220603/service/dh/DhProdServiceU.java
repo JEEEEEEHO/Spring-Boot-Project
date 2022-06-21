@@ -27,7 +27,7 @@ public interface DhProdServiceU {
 
 	int              prodDetailCount(Product product3); //상단 장바구니 조회 -접근권한
 
-	// 위시리스트용
+	///////////////////////////위시리스트용
 	int wishCount(Wishlist wishlist);
 	int emptyToFill(Wishlist wishlist);
 	int fillToEmpty(Wishlist wishlist);

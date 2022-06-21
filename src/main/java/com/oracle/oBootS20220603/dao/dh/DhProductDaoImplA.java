@@ -68,40 +68,40 @@ public class DhProductDaoImplA implements DhProductDaoA {
 		return result;
 	}
 	
-	// 상품 총 개수(페이징)_지아
-	@Override
-	public int total() {
-		int tot = 0;
-		System.out.println("DhProductDaoImplA total Start..");
-		try {
-			tot = session.selectOne("dhProdTotal"); 
-			System.out.println("DhProductDaoImplA total tot -> " + tot);
-		} catch (Exception e) {
-			System.out.println("DhProductDaoImplA total Exception -> " + e.getMessage());
-		}
-		return tot;
-	}
-	
-	// 리스트 페이징_지아
-	@Override
-	public List<Product> listProd(Product product) {
-		System.out.println("DhProductDaoImplA listProd Start..");
-		List<Product> prodList = null;
-		try {
-			prodList = session.selectList("dhAdminProdSelect", product);
-			System.out.println("DhProductDaoImplA listProd prodList.size() -> " + prodList.size());
-			for (Product rtnProd : prodList) {
-				System.out.println("DhProductDaoImplA listProd rtnProd.size()->" + rtnProd.getProdno());
-				System.out.println("DhProductDaoImplA listProd rtnProd.size()->" + rtnProd.getProd_name());
-				System.out.println("DhProductDaoImplA listProd rtnProd.size()->" + rtnProd.getProd_price());
-				System.out.println("DhProductDaoImplA listProd rtnProd.size()->" + rtnProd.getDc_rate());
-				System.out.println("DhProductDaoImplA listProd rtnProd.size()->" + rtnProd.getSale_price());
+	// 상품 총 개수
+		@Override
+		public int total() {
+			int tot = 0;
+			System.out.println("DhProductDaoImplA total Start..");
+			try {
+				tot = session.selectOne("dhProdTotal"); 
+				System.out.println("DhProductDaoImplA total tot -> " + tot);
+			} catch (Exception e) {
+				System.out.println("DhProductDaoImplA total Exception -> " + e.getMessage());
 			}
-		} catch (Exception e) {
-			System.out.println("DhProductDaoImplA listProd Exception->" + e.getMessage());
+			return tot;
 		}
-		return prodList;
-	}
+	
+		// 상품 리스트
+		@Override
+		public List<Product> listProd(Product product) {
+			System.out.println("DhProductDaoImplA listProd Start..");
+			List<Product> prodList = null;
+			try {
+				prodList = session.selectList("dhAdminProdSelect", product);
+				System.out.println("DhProductDaoImplA listProd prodList.size() -> " + prodList.size());
+				for (Product rtnProd : prodList) {
+					System.out.println("DhProductDaoImplA listProd rtnProd.size()->" + rtnProd.getProdno());
+					System.out.println("DhProductDaoImplA listProd rtnProd.size()->" + rtnProd.getProd_name());
+					System.out.println("DhProductDaoImplA listProd rtnProd.size()->" + rtnProd.getProd_price());
+					System.out.println("DhProductDaoImplA listProd rtnProd.size()->" + rtnProd.getDc_rate());
+					System.out.println("DhProductDaoImplA listProd rtnProd.size()->" + rtnProd.getSale_price());
+				}
+			} catch (Exception e) {
+				System.out.println("DhProductDaoImplA listProd Exception->" + e.getMessage());
+			}
+			return prodList;
+		}
 	
 	// 어드민 상품조회 키워드 토탈 개수
 	@Override
@@ -145,18 +145,19 @@ public class DhProductDaoImplA implements DhProductDaoA {
 
 	
 	// 어드민 상품 상세
-	@Override
-	public Product prodDetail(int prodno) {
-		System.out.println("DhProductDaoImplA prodDetail Start..");
-		Product product = null;
-		try {
-			product = session.selectOne("dhProdDetail", prodno);
-			System.out.println("DhProductDaoImplA prodDetail .getProd_name() -> " + product.getProd_name());
-		} catch (Exception e) {
-			System.out.println("DhProductDaoImplA listProd Exception->" + e.getMessage());
+		@Override
+		public Product prodDetail(int prodno) {
+			System.out.println("DhProductDaoImplA prodDetail Start..");
+			Product product = null;
+			try {
+				product = session.selectOne("dhProdDetail", prodno);
+				System.out.println("DhProductDaoImplA prodDetail .getProd_name() -> " + product.getProd_name());
+			} catch (Exception e) {
+				System.out.println("DhProductDaoImplA listProd Exception->" + e.getMessage());
+			}
+			return product;
 		}
-		return product;
-	}
+
 	
 	// 어드민 상품 삭제
 	@Override
@@ -173,7 +174,19 @@ public class DhProductDaoImplA implements DhProductDaoA {
 		return result; // 성공하면 1 실패하면 0
 	}
 
-
+	@Override
+	public int prodInsert(Product product) {
+		System.out.println("DhProductDaoImplA prodInsert Start..");
+		int result = 0;
+		try {
+			result = session.insert("dhProdInsert", product);
+		} catch (Exception e) {
+			System.out.println("DhProductDaoImplA prodInsert Exception->" + e.getMessage());
+		}
+		return result;
+	}
+	
+	
 	// 관리자 상품리스트에서 상품삭제
 	@Override
 	public int adminProdDelAJAX(Product product) {
@@ -187,7 +200,39 @@ public class DhProductDaoImplA implements DhProductDaoA {
 		}
 		return result;
 	}
-	
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 게시에서 비게시 아작스 
+	@Override
+	public int chgstsyn(int prodno) {
+		System.out.println("DhProductDaoImplA chgstsyn Starts...");
+		int result=0;
+		
+		try {
+			result=session.update("dhChgstsyn",prodno);
+			System.out.println("DhProductDaoImplA chgstsyn result->"+result);
+		} catch (Exception e) {
+			System.out.println("DhProductDaoImplA chgstsyn Exception-> "+e.getMessage());
+		}
+		return result;
+	}
+
+	// 비게시에서 게시로 아작스 
+	@Override
+	public int chgstsny(int prodno) {
+		System.out.println("DhProductDaoImplA chgstsny Starts...");
+		int result=0;
+		
+		try {
+			result=session.update("dhChgstsny",prodno);
+			System.out.println("DhProductDaoImplA chgstsny result->"+result);
+		} catch (Exception e) {
+			System.out.println("DhProductDaoImplA chgstsny Exception-> "+e.getMessage());
+		}
+		return result;
+	}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	
 //	// 어드민 상품 수정
 //	@Override
@@ -209,18 +254,5 @@ public class DhProductDaoImplA implements DhProductDaoA {
 //
 //	
 //	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }

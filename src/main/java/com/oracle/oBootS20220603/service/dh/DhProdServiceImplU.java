@@ -113,7 +113,7 @@ public class DhProdServiceImplU implements DhProdServiceU {
 			return result;
 		}
 		
-		// 위시리스트 시작 ***********************************************************
+///////////// 위시리스트 시작 ***********************************************************
 		//id prodno 모두가 같은 품목이 있는지에 따라 ef heart 변화
 		@Override
 		public int wishCount(Wishlist wishlist) {
@@ -148,7 +148,8 @@ public class DhProdServiceImplU implements DhProdServiceU {
 			return idWishList;
 		}
 		
-		// 위시리스트 끝***********************************************************	
+///////////// 위시리스트 끝 ***********************************************************
+
 		
 		
 //      상세페이지->회원존재->장바구니 담기

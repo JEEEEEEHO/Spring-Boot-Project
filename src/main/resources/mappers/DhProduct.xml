@@ -85,7 +85,7 @@
 		where id=#{id}
 	</select> 
 	
-	<!-- ================================================================================  -->
+<!-- ================================================================================  -->
 	<!-- 위시리스트 시작 -->
 	<!-- id prodno 모두가 같은 품목이 있는지 -->
 	<select id="findProdViewHeart" resultType="int" parameterType="Wishlist">
@@ -113,6 +113,6 @@
 		FROM wishlist w, product p, evt_product ep, event e
 		WHERE p.prodno = ep.prodno(+) AND ep.evt_no = e.evt_no(+) AND w.id=#{id} AND p.prodno=w.prodno 
 	</select>
-	<!-- 위시리스트 끝 -->
+<!-- ================================================================================  -->
 	
 </mapper>

@@ -104,20 +104,5 @@
 		<jsp:include page="/WEB-INF/views/footer.jsp"/>
 		
 	</div> <!-- wrap -->
-	
-	<script>
-		$(function(){
-			/* 위시리스트 담기 -> heart 아이콘 활성화 */
-			$(".like").click(function(){
-				if (${memberId == null}) {
-					alert("회원 가입 후 이용해주세요.");
-					location.href = "/";					
-				} else {
-					$(this).toggleClass("active");
-				}
-				
-			});
-		})
-	</script>
 </body>
 </html>
