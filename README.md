@@ -10,7 +10,6 @@ Vegan Product Shopping Site
 <img src="https://user-images.githubusercontent.com/101038640/208831793-49b998c8-7619-4fb6-a231-6251896a9313.png">
 
 
-사용자 상세
 <img src="https://user-images.githubusercontent.com/101038640/208831782-91cde736-0b46-48be-b250-3daf56712dd5.png">
 
 
